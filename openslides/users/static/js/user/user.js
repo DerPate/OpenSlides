@@ -74,18 +74,24 @@ angular.module('OpenSlidesApp.user', [])
     User.bindOne($scope, 'user', $routeParams.id);
 })
 
-.controller('UserCreateCtrl', function($scope, User) {
+.controller('UserCreateCtrl', function($scope, $location, User) {
     $scope.user = {};
     $scope.save = function (user) {
-        User.create(user);
-        // TODO: redirect to list-view
+        User.create(user).then(
+            function(success) {
+                $location.path( '/user' );
+            }
+        );
     };
 })
 
-.controller('UserUpdateCtrl', function($scope, $routeParams, User, user) {
+.controller('UserUpdateCtrl', function($scope, $location, $routeParams, User, user) {
     $scope.user = user;  // do not use Agenda.binOne(...) so autoupdate is not activated
     $scope.save = function (user) {
-        User.save(user);
-        // TODO: redirect to list-view
+        User.save(user).then(
+            function(success) {
+                $location.path( '/user' );
+            }
+        );
     };
 });

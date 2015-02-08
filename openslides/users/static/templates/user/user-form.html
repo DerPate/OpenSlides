@@ -1,8 +1,76 @@
-<h1 ng-if="user.id">{{ user.get_short_name() }}</h1>
-<h1 ng-if="!user.id">{{ gettext("New User") }}</h1>
+<h1 ng-if="user.id">{{ gettext("Edit participant") }}</h1>
+<h1 ng-if="!user.id">{{ gettext("New participant") }}</h1>
 
-<form>
-    firstname: <input type="text" ng-model="user.first_name"><br>
-    lastname: <input type="text" ng-model="user.last_name"><br>
-    <input type="submit" ng-click="save(user)" value="Save" />
+<div id="submenu">
+    <a ng-href="user" class="btn btn-sm btn-default">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        {{ gettext('Back to overview') }}
+    </a>
+</div>
+
+<form name="userForm">
+    <div class="form-group">
+        <label for="inputTitle">{{ gettext("Title") }}</label>
+        <input type="text" ng-model="user.title" class="form-control" name="inputTitle">
+    </div>
+    <div class="form-group" ng-class="{ 'has-error has-feedback' : userForm.inputUsername.$error.required }">
+        <label for="inputUsername">{{ gettext("Username") }}</label>
+        <input type="text" ng-model="user.username" ng-required="true" class="form-control" name="inputUsername">
+        <span ng-if="userForm.inputUsername.$error.required" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+        <p ng-show="userForm.inputUsername.$error.required" class="error-message help-block">
+            {{ gettext("Username is required.") }}
+        </p>
+    </div>
+    <div class="form-group">
+        <label for="inputFirstName">{{ gettext("First name") }}</label>
+        <input type="text" ng-model="user.first_name" class="form-control" name="inputFirstName">
+    </div>
+    <div class="form-group">
+        <label for="inputLastName">{{ gettext("Last name") }}</label>
+        <input type="text" ng-model="user.last_name" class="form-control" name="inputLastName">
+    </div>
+    <div class="form-group">
+        <label for="inputStructureLevel">{{ gettext("Structure level") }}</label>
+        <input type="text" ng-model="user.structure_level" class="form-control" name="inputStructureLevel">
+    </div>
+    <div class="form-group" ng-class="{ 'has-error has-feedback' : userForm.selectGroups.$error.required }">
+        <label for="selectGroups">{{ gettext("Groups") }}</label>
+        <input type="text" ng-model="user.groups" ng-required="true" class="form-control" name="selectGroups">
+        <span ng-if="userForm.selectGroups.$error.required" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+        <p ng-show="userForm.selectGroups.$error.required" class="error-message help-block">
+            {{ gettext("Group is required.") }}
+        </p>
+        <!-- TODO: use select box
+        <select ng-options="group.name for group in groups"
+                ng-model="user.groups" class="form-control" id="selectGroups">
+            <option>TODO</option>
+        </select>-->
+    </div>
+    <div class="form-group">
+        <label for="inputDefaultPassword">{{ gettext("Default password") }}</label>
+        <input type="text" ng-model="user.default_password" class="form-control" name="inputDefaultPassword">
+    </div>
+    <div class="form-group">
+        <label for="textComment">{{ gettext("Comment") }}</label>
+        <textarea ng-model="user.comment" class="form-control" name="textComment" />
+    </div>
+    <div class="form-group">
+        <label for="textAbout">{{ gettext("About me") }}</label>
+        <textarea ng-model="user.about_me" class="form-control" name="textAbout" />
+    </div>
+    <div class="form-group">
+        <label class="checkbox-inline">
+            <input type="checkbox" ng-model="user.is_present" ng-checked="user.is_present" name="checkboxActive">
+            &nbsp;{{ gettext("Is present") }}
+        </label>
+    </div>
+    <div class="form-group">
+        <label class="checkbox-inline">
+            <input type="checkbox" ng-model="user.is_active" ng-checked="user.is_active" name="checkboxActive">
+            &nbsp;{{ gettext("Is active") }}
+        </label>
+    </div>
+
+    <a type="submit" ng-click="save(user)" class="btn btn-primary">{{ gettext("Save") }}</a>
+    <a ng-href="user" class="btn btn-default">{{ gettext("Cancel") }}</a>
 </form>
